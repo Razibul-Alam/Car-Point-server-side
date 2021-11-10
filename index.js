@@ -18,53 +18,54 @@ async function run() {
       // Connect the client to the server
       await client.connect();
     //   console.log('database connected')
-      const database = client.db('Travel-Adventure');
-    const eventsCollection = database.collection('adventures');
-    const bookingCollection=database.collection('bookings')
+      const database = client.db('Car-point');
+    const carsCollection = database.collection('cars');
+    const orderCollection=database.collection('orders')
+    const reviewCollection=database.collection('reviews')
     // add item
     app.post('/addItem', async(req,res)=>{
-        const events=req.body
+        const carInfo=req.body
         // console.log(events)
-        const insertedResult=await eventsCollection.insertOne(events)
+        const insertedResult=await carCollection.insertOne(carInfo)
         res.json(insertedResult)
         // console.log(insertedResult)
     })
     // add booking order
-    app.post('/addBooking', async(req,res)=>{
-        const booking=req.body
+    app.post('/addOrder', async(req,res)=>{
+        const carOrder=req.body
         // console.log(booking)
-        const insertedResult=await bookingCollection.insertOne(booking)
+        const insertedResult=await orderCollection.insertOne(carOrder)
         res.json(insertedResult)
     })
     // load allevents
-    app.get('/allevents', async(req,res)=>{
-        const getEvents=await eventsCollection.find({}).toArray();
-        res.json(getEvents)
+    app.get('/allcars', async(req,res)=>{
+        const getAllCars=await carsCollection.find({}).toArray();
+        res.json(getAllCars)
     })
     // load all bookings
-    app.get('/allBookings', async(req,res)=>{
-        const getBookings=await bookingCollection.find({}).toArray();
-        res.json(getBookings)
+    app.get('/allOrders', async(req,res)=>{
+        const getOrders=await orderCollection.find({}).toArray();
+        res.json(getOrders)
     })
     // load all bookings by email
-    app.get('/getBookingsByEmail', async(req,res)=>{
+    app.get('/getOrdersByEmail', async(req,res)=>{
         const queryEmail=req.query.email;
         // console.log(queryEmail)
-        const getBookings=await bookingCollection.find({email:queryEmail}).toArray();
-        res.json(getBookings)
+        const getOrders=await orderCollection.find({email:queryEmail}).toArray();
+        res.json(getOrders)
     })
     // load single item
     app.get('/singleItem/:id', async(req,res)=>{
         const itemQuery=req.params.id
-        const getEvents=await eventsCollection.find({_id:ObjectId(itemQuery)}).toArray();
-        res.json(getEvents)
+        const getSingleCar=await carsCollection.find({_id:ObjectId(itemQuery)}).toArray();
+        res.json(getSingleCar)
     })
      
     //  delete an item by id
     app.delete('/removeItem/:id',async(req,res)=>{
         const removeId=req.params.id
         // console.log(removeId)
-        const deletedItem= await bookingCollection.deleteOne({_id:ObjectId(removeId)})
+        const deletedItem= await orderCollection.deleteOne({_id:ObjectId(removeId)})
         // console.log(deletedItem)
         res.json(deletedItem)
     })
@@ -82,7 +83,7 @@ async function run() {
             },
       
           };
-          const updateResult=await bookingCollection.updateOne(filter,updateStatus) 
+          const updateResult=await orderCollection.updateOne(filter,updateStatus) 
           res.json(updateResult)
     })
 
@@ -93,7 +94,7 @@ async function run() {
   run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-    res.send('welcome to travel adventure')
+    res.send('welcome to car point')
 })
 // server listening
 app.listen(port,()=>{
