@@ -23,24 +23,36 @@ async function run() {
     const orderCollection=database.collection('orders')
     const reviewCollection=database.collection('reviews')
     // add item
-    app.post('/addItem', async(req,res)=>{
+    app.post('/addcar', async(req,res)=>{
         const carInfo=req.body
-        // console.log(events)
-        const insertedResult=await carCollection.insertOne(carInfo)
+        console.log(carInfo)
+        const insertedResult=await carsCollection.insertOne(carInfo)
         res.json(insertedResult)
-        // console.log(insertedResult)
+        console.log(insertedResult)
     })
     // add booking order
     app.post('/addOrder', async(req,res)=>{
         const carOrder=req.body
-        // console.log(booking)
+        console.log(carOrder)
         const insertedResult=await orderCollection.insertOne(carOrder)
+        res.json(insertedResult)
+    })
+    // add review
+    app.post('/addReview', async(req,res)=>{
+        const review=req.body
+        console.log(review)
+        const insertedResult=await reviewCollection.insertOne(review)
         res.json(insertedResult)
     })
     // load allevents
     app.get('/allcars', async(req,res)=>{
         const getAllCars=await carsCollection.find({}).toArray();
         res.json(getAllCars)
+    })
+    // get all reviews
+    app.get('/allReviews', async(req,res)=>{
+        const getAllReviews=await reviewCollection.find({}).toArray();
+        res.json(getAllReviews)
     })
     // load all bookings
     app.get('/allOrders', async(req,res)=>{
