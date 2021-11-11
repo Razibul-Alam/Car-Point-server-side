@@ -62,7 +62,7 @@ async function run() {
     // load all bookings by email
     app.get('/getOrdersByEmail', async(req,res)=>{
         const queryEmail=req.query.email;
-        // console.log(queryEmail)
+        console.log(queryEmail)
         const getOrders=await orderCollection.find({email:queryEmail}).toArray();
         res.json(getOrders)
     })
