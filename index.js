@@ -89,6 +89,14 @@ async function run() {
         // console.log(deletedItem)
         res.json(deletedItem)
     })
+    //  delete an item by id from cars collection
+    app.delete('/removeCarItem/:id',async(req,res)=>{
+        const removeId=req.params.id
+        // console.log(removeId)
+        const deletedItem= await carsCollection.deleteOne({_id:ObjectId(removeId)})
+        // console.log(deletedItem)
+        res.json(deletedItem)
+    })
     
      // update status
      app.put('/updateStatus',async(req,res)=>{
